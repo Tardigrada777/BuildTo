@@ -4,6 +4,19 @@ import xlrd
 import statistics
 import math
 
+def fresh_tuesday(x):
+    CS = x[2]
+    usingWeek = x[3]
+    usingFr = x[4]
+    usingSun = x[5]
+    stock = x[6]
+    USEFRID = (usingWeek*4)+usingFr+(usingSun*2)
+    FRID = ((USEFRID-STOCK)/CS)
+    TUED = usingWeek*3
+    BuildTo = ('Заказ на Пт --> Вт: ', round(FRID), round(TUED))
+    return BuildTo
+
+
 def TUESDAY_BUILDTO(x):
     reserve = 1  # Переменная, определяющая запас в сутках
     #Получаю данные из списка
@@ -91,15 +104,11 @@ def WEDNESDAY_BUILDTO(x):
     buildTo = ('Заказ на Пт ', round(FRID), 'Заказ на Вт ', round(TUED))
     return buildTo
 
-import xlwt
-
 print('Chose your Day ')
 USER = input()
 if str(USER) == 'Понедельник':
-    i = 194
-    NOS = 2
-    r = 1
-    c = 1
+    i = 206
+    NOS = 195
     while NOS < i:
         xl = xlrd.open_workbook(r'data.xls')
         s = xl.sheet_by_index(0)
@@ -112,16 +121,26 @@ if str(USER) == 'Понедельник':
             f.write(str(name) + str(MONDAY_BUILDTO(rl)) + '\n')
             # f.write('n')
         f.close()
-        # wb = xlwt.Workbook()
-        # ws = wb.add_sheet('File#1')
-        # ws.write(int(r), int(c), MONDAY_BUILDTO(rl)[1])
-        # r += 1
-        # c += 1
-        # wb.save('File1.xls')
         print(name, '  ', MONDAY_BUILDTO(rl))
 elif str(USER) == 'Вторник':
     print(TUESDAY_BUILDTO(rl))
 elif str(USER) == 'Среда':
     print(WEDNESDAY_BUILDTO(rl))
+elif str(USER) == 'fresh_tuesday':
+    i = 207
+    NOS = 195
+    while NOS < i:
+        xl = xlrd.open_workbook(r'data.xls')
+        s = xl.sheet_by_index(0)
+        rl = s.row_values(NOS)
+        name = rl[1]
+        NOS += 1
+        f = open('BuildTo.csv', 'a')
+        l = [1]
+        for index in l:
+            f.write(str(name) + str(MONDAY_BUILDTO(rl)) + '\n')
+            # f.write('n')
+        f.close()
+        print(name, '  ', MONDAY_BUILDTO(rl))
 else:
     print('Please Choose Mn, Tu or Wed')
