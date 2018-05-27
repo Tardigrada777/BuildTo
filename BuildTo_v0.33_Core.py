@@ -3,6 +3,8 @@
 import xlrd
 import statistics
 import math
+import core
+import commands
 
 def fresh_tuesday(x):
     CS = x[2]
@@ -112,58 +114,79 @@ def WEDNESDAY_BUILDTO(x):
     buildTo = ('Заказ на Пт ', round(FRID), 'Заказ на Вт ', round(TUED))
     return buildTo
 
-print('Выберите день расчёта заказа ')
-USER = input()
-if str(USER) == 'Понедельник':
-    i = 206
-    NOS = 195
-    while NOS < i:
-        xl = xlrd.open_workbook(r'data.xls')
-        s = xl.sheet_by_index(0)
-        rl = s.row_values(NOS)
-        name = rl[1]
-        NOS += 1
-        f = open('BuildTo.csv', 'a')
-        l = [1]
-        for index in l:
-            f.write(str(name) + str(MONDAY_BUILDTO(rl)) + '\n')
-            # f.write('n')
-        f.close()
-        print(name, '  ', MONDAY_BUILDTO(rl))
-elif str(USER) == 'Вторник':
-    i = 195
-    NOS = 2
-    while NOS < i:
-        xl = xlrd.open_workbook(r'data.xls')
-        s = xl.sheet_by_index(0)
-        rl = s.row_values(NOS)
-        name = rl[1]
-        NOS += 1
-        f = open('BuildTo.csv', 'a')
-        l = [1]
-        for index in l:
-            f.write(str(name) + str(TUESDAY_BUILDTO(rl)) + '\n')
-            # f.write('n')
-        f.close()
-        print(name, '  ', TUESDAY_BUILDTO(rl))
-    print('Расчёт заказа завершен успешно:', i+1, 'наименований')
-elif str(USER) == 'Среда':
-    print(WEDNESDAY_BUILDTO(rl))
-elif str(USER) == 'fresh_tuesday':
-    i = 207
-    NOS = 195
-    while NOS < i:
-        xl = xlrd.open_workbook(r'data.xls')
-        s = xl.sheet_by_index(0)
-        rl = s.row_values(NOS)
-        name = rl[1]
-        NOS += 1
-        f = open('BuildTo.csv', 'a')
-        l = [1]
-        for index in l:
-            f.write(str(name) + str(MONDAY_BUILDTO(rl)) + '\n')
-            # f.write('n')
-        f.close()
-        print(name, '  ', MONDAY_BUILDTO(rl))
-else:
-    print('Please Choose Mn, Tu or Wed')
+print ('  ','[1] ''Ввод команды')
+print ('  ','[2] ''Help')
+print ('  ','[3] ''Куда я попал? Выход!')
+start = input()
+while start != '3':
+    if start == '2':
+        print('Основные команды:')
+        print('  ','[1] Основной заказ: Булки')
+        print('  ','[2] Основной заказ: Фризер')
+        print('  ','[3] Основной заказ: Кулер')
+        print('  ','[4] Основной заказ: Сухой-продукты')
+        print('  ','[5] Основной заказ: Сухой-не продукты')
+        print('  ','[6] Фреш')
+        print('')
+        print('Дни:')
+        print('  ', '[m] Понедельник')
+        print('  ', '[t] Вторник')
+        print('  ', '[w] Среда')
+        print('')
+        print('Структура команды:')
+        print('[Основная команда]_[день]')
+        print('')
+        print('')
+        print('  ', '[1] ''Ввод команды')
+        print('  ', '[2] ''Help')
+        print('  ', '[3] ''Куда я попал? Выход!')
+        start = input()
+    else:
+        print("Введите команду: ")
+        USER = input()
+        if USER == '1_m':
+            #Понедельник-булки
+            commands.monday_rolls()
+        elif USER == '2_m':
+            #Понедельник-фризер
+            commands.monday_freez()
+        elif USER == '3_m':
+            #Понедельник-кулер
+            commands.monday_freez()
+        elif str(USER) == 'Вторник':
+            i = 195
+            NOS = 2
+            while NOS < i:
+                xl = xlrd.open_workbook(r'data.xls')
+                s = xl.sheet_by_index(0)
+                rl = s.row_values(NOS)
+                name = rl[1]
+                NOS += 1
+                f = open('BuildTo.csv', 'a')
+                l = [1]
+                for index in l:
+                    f.write(str(name) + str(TUESDAY_BUILDTO(rl)) + '\n')
+                    # f.write('n')
+                f.close()
+                print(name, '  ', TUESDAY_BUILDTO(rl))
+            print('Расчёт заказа завершен успешно:', i+1, 'наименований')
+        elif USER == 'Среда':
+            print(WEDNESDAY_BUILDTO(rl))
+        elif str(USER) == 'fresh_tuesday':
+            i = 207
+            NOS = 195
+            while NOS < i:
+                xl = xlrd.open_workbook(r'data.xls')
+                s = xl.sheet_by_index(0)
+                rl = s.row_values(NOS)
+                name = rl[1]
+                NOS += 1
+                f = open('BuildTo.csv', 'a')
+                l = [1]
+                for index in l:
+                    f.write(str(name) + str(MONDAY_BUILDTO(rl)) + '\n')
+                    # f.write('n')
+                f.close()
+                print(name, '  ', MONDAY_BUILDTO(rl))
+        else:
+            print('Please Choose Mn, Tu or Wed')
